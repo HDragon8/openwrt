@@ -37,13 +37,6 @@ define Package/default-settings/install
 	$(INSTALL_DIR) $(1)/etc/uci-defaults
 	$(INSTALL_BIN) ./files/99-default-settings $(1)/etc/uci-defaults/
 	$(CP) ./files/* $(1)/
-	echo $(BOARD)$(TARGETID)
-	if [ -d ./target/$(BOARD)/base-files/. ]; then \
-		$(CP) ./target/$(BOARD)/base-files/* $(1)/; \
-	fi
-	if [ -d ./target/$(TARGETID)/base-files/. ]; then \
-		$(CP) ./target/$(TARGETID)/base-files/* $(1)/; \
-	fi;
 endef
 
 define Package/default-settings-chn/install
