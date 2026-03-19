@@ -17,7 +17,7 @@ fi
 #sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release
 #echo "DISTRIB_REVISION='R25.2.10'" >> /etc/openwrt_release
 sed -i '/BUILD_ID/d' /etc/os-release
-echo "BUILD_ID='R260303'" >> /etc/os-release
+echo "BUILD_ID='R260320'" >> /etc/os-release
 
 sed -i "/log-facility/d" "/etc/dnsmasq.conf"
 echo "log-facility=/dev/null" >> "/etc/dnsmasq.conf"
