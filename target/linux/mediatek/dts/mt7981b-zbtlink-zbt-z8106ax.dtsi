@@ -12,8 +12,8 @@
 / {
 	aliases {
 		serial0 = &uart0;
-		led-boot = &led_status_red;
-		led-failsafe = &led_status_red;
+		led-boot = &led_status_green;
+		led-failsafe = &led_status_green;
 		led-running = &led_status_green;
 		led-upgrade = &led_status_green;
 		label-mac-device = &gmac1;
@@ -32,13 +32,6 @@
 	gpio-keys {
 		compatible = "gpio-keys";
 
-		button-mesh {
-			label = "mesh";
-			linux,code = <BTN_0>;
-			linux,input-type = <EV_SW>;
-			gpios = <&pio 0 GPIO_ACTIVE_HIGH>;
-		};
-
 		button-reset {
 			label = "reset";
 			linux,code = <KEY_RESTART>;
@@ -50,29 +43,24 @@
 		compatible = "gpio-leds";
 
 		wan {
-			color = <LED_COLOR_ID_GREEN>;
+			color = <LED_COLOR_ID_AMBER>;
 			function = LED_FUNCTION_WAN;
 			gpios = <&pio 8 GPIO_ACTIVE_LOW>;
+			linux,default-trigger = "eth1";
 		};
 
-		led_status_blue: mesh-blue {
-			color = <LED_COLOR_ID_BLUE>;
-			function = LED_FUNCTION_STATUS;
-			gpios = <&pio 23 GPIO_ACTIVE_LOW>;
-		};
-
-		led_status_green: mesh-green {
+		led_status_green: pwr {
 			color = <LED_COLOR_ID_GREEN>;
 			function = LED_FUNCTION_STATUS;
-			gpios = <&pio 24 GPIO_ACTIVE_LOW>;
+			gpios = <&pio 9 GPIO_ACTIVE_LOW>;
 		};
 
-		led_status_red: mesh-red {
-			color = <LED_COLOR_ID_RED>;
-			function = LED_FUNCTION_STATUS;
-			gpios = <&pio 25 GPIO_ACTIVE_LOW>;
-			default-state = "on";
+		4g {
+			color = <LED_COLOR_ID_GREEN>;
+			function = LED_FUNCTION_MOBILE;
+			gpios = <&pio 10 GPIO_ACTIVE_LOW>;
 		};
+
 		led-wlan2g {
 			color = <LED_COLOR_ID_GREEN>;
 			function = LED_FUNCTION_WLAN_2GHZ;
@@ -88,6 +76,48 @@
 			function-enumerator = <1>;
 			linux,default-trigger = "phy1tpt";
 		};
+	};
+
+	reg_3p3v: regulator-3p3v {
+		compatible = "regulator-fixed";
+		regulator-name = "fixed-3.3V";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-boot-on;
+		regulator-always-on;
+	};
+
+	reg_5v: regulator-5v {
+		compatible = "regulator-fixed";
+		regulator-name = "fixed-5V";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		regulator-boot-on;
+		regulator-always-on;
+	};
+
+	watchdog {
+		compatible = "linux,wdt-gpio";
+		gpios = <&pio 2 GPIO_ACTIVE_HIGH>;
+		hw_algo = "toggle";
+		hw_margin_ms = <1000>;
+	};
+
+	gpio-export {
+		compatible = "gpio-export";
+
+		4g {
+			gpio-export,name = "4g";
+			gpio-export,output = <1>;
+			gpios = <&pio 4 GPIO_ACTIVE_HIGH>;
+		};
+
+		sim {
+			gpio-export,name = "sim";
+			gpio-export,output = <0>;
+			gpios = <&pio 6 GPIO_ACTIVE_LOW>;
+		};
+
 	};
 };
 
@@ -142,22 +172,26 @@
 		port@0 {
 			reg = <0>;
 			label = "lan1";
-			nvmem-cell-names = "mac-address";
-			nvmem-cells = <&macaddr_factory_4 0>;
 		};
 
 		port@1 {
 			reg = <1>;
 			label = "lan2";
-			nvmem-cell-names = "mac-address";
-			nvmem-cells = <&macaddr_factory_4 1>;
 		};
 
 		port@2 {
 			reg = <2>;
 			label = "lan3";
-			nvmem-cell-names = "mac-address";
-			nvmem-cells = <&macaddr_factory_4 2>;
+		};
+
+		port@3 {
+			reg = <3>;
+			label = "lan4";
+		};
+
+		port@4 {
+			reg = <4>;
+			label = "wwan";
 		};
 
 		port@6 {
@@ -198,7 +232,7 @@
 			#size-cells = <1>;
 
 			partition@0 {
-				label = "BL2";
+				label = "bl2";
 				reg = <0x0000000 0x0100000>;
 				read-only;
 			};
@@ -220,7 +254,7 @@
 				read-only;
 			};
 
-			ubi: partition@580000 {
+			nand_rootfs: partition@580000 {
 				label = "ubi";
 				reg = <0x580000 0x7280000>;
 			};
@@ -259,6 +293,8 @@
 
 &wifi {
 	status = "okay";
+	#address-cells = <1>;
+	#size-cells = <0>;
 	nvmem-cells = <&eeprom_factory>;
 	nvmem-cell-names = "eeprom";
 
@@ -275,14 +311,20 @@
 	};
 };
 
+&usb_phy {
+	status = "okay";
+};
+
+&xhci {
+	status = "okay";
+	vusb33-supply = <&reg_3p3v>;
+	vbus-supply = <&reg_5v>;
+};
+
 &factory {
 	compatible = "nvmem-cells";
 	#address-cells = <1>;
 	#size-cells = <1>;
-
-	eeprom_factory: eeprom@0 {
-		reg = <0x0 0x1000>;
-	};
 
 	macaddr_factory_4: macaddr@4 {
 		reg = <0x4 0x6>;
@@ -300,5 +342,9 @@
 		reg = <0x2a 0x6>;
 		compatible = "mac-base";
 		#nvmem-cell-cells = <1>;
+	};
+
+	eeprom_factory: eeprom@0 {
+		reg = <0x0 0x1000>;
 	};
 };
