@@ -785,6 +785,8 @@ TARGET_DEVICES += bananapi_bpi-r4-lite
 define Device/bazis_ax3000wm
   DEVICE_VENDOR := Bazis
   DEVICE_MODEL := AX3000WM
+  DEVICE_ALT0_VENDOR := Shenzhen Jia Yan Technology
+  DEVICE_ALT0_MODEL := WD-R3000N-G2A
   DEVICE_DTS := mt7981b-bazis-ax3000wm
   DEVICE_DTS_DIR := ../dts
   UBINIZE_OPTS := -E 5
@@ -1964,6 +1966,21 @@ define Device/jdcloud_re-cp-03
   ARTIFACT/bl31-uboot.fip := mt7986-bl31-uboot jdcloud_re-cp-03
 endef
 TARGET_DEVICES += jdcloud_re-cp-03
+
+define Device/jiorouter_ax6000-jidu6101
+  DEVICE_VENDOR := JioRouter
+  DEVICE_MODEL := AX6000
+  DEVICE_VARIANT := JIDU6101
+  DEVICE_DTS := mt7986a-jiorouter-ax6000-jidu6101
+  DEVICE_DTS_DIR := ../dts
+  DEVICE_PACKAGES := kmod-usb3 kmod-mt7915e kmod-mt7916-firmware kmod-mt7986-firmware mt7986-wo-firmware
+  UBINIZE_OPTS := -E 5
+  UBOOTENV_IN_UBI := 1
+  BLOCKSIZE := 128k
+  PAGESIZE := 2048
+  IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
+endef
+TARGET_DEVICES += jiorouter_ax6000-jidu6101
 
 define Device/kebidumei_ax3000-u22
   DEVICE_VENDOR := Kebidumei
