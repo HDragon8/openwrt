@@ -327,6 +327,30 @@ define U-Boot/mt7981_creatlentem_clt-r30b1-ubi
   DEPENDS:=+trusted-firmware-a-mt7981-spim-nand-ubi-ddr3-1866
 endef
 
+define U-Boot/mt7981_cudy_m3000-v1
+  NAME:=Cudy M3000 v1/v2
+  BUILD_SUBTARGET:=filogic
+  BUILD_DEVICES:=cudy_m3000-v1-ubootmod
+  UBOOT_CONFIG:=mt7981_cudy_m3000-v1
+  UBOOT_IMAGE:=u-boot.fip
+  BL2_BOOTDEV:=cudy
+  BL2_SOC:=mt7981
+  BL2_DDRTYPE:=ddr3
+  DEPENDS:=+trusted-firmware-a-mt7981-cudy-ddr3
+endef
+
+define U-Boot/mt7981_cudy_m3000-v2-yt8821
+  NAME:=Cudy M3000 v2 with Motorcomm YT8821
+  BUILD_SUBTARGET:=filogic
+  BUILD_DEVICES:=cudy_m3000-v2-yt8821-ubootmod
+  UBOOT_CONFIG:=mt7981_cudy_m3000-v2-yt8821
+  UBOOT_IMAGE:=u-boot.fip
+  BL2_BOOTDEV:=cudy
+  BL2_SOC:=mt7981
+  BL2_DDRTYPE:=ddr3
+  DEPENDS:=+trusted-firmware-a-mt7981-cudy-ddr3
+endef
+
 define U-Boot/mt7981_cudy_tr3000-v1
   NAME:=Cudy TR3000 v1
   BUILD_SUBTARGET:=filogic
@@ -680,6 +704,18 @@ define U-Boot/mt7981_snr_snr-cpe-ax2
   BUILD_SUBTARGET:=filogic
   BUILD_DEVICES:=snr_snr-cpe-ax2
   UBOOT_CONFIG:=mt7981_snr_snr-cpe-ax2
+  UBOOT_IMAGE:=u-boot.fip
+  BL2_BOOTDEV:=spim-nand
+  BL2_SOC:=mt7981
+  BL2_DDRTYPE:=ddr3
+  DEPENDS:=+trusted-firmware-a-mt7981-spim-nand-ddr3
+endef
+
+define U-Boot/mt7981_wavlink_wl-wnt100x3
+  NAME:=WAVLINK WL-WNT100X3
+  BUILD_SUBTARGET:=filogic
+  BUILD_DEVICES:=wavlink_wl-wnt100x3-ubootmod
+  UBOOT_CONFIG:=mt7981_wavlink_wl-wnt100x3
   UBOOT_IMAGE:=u-boot.fip
   BL2_BOOTDEV:=spim-nand
   BL2_SOC:=mt7981
@@ -1234,6 +1270,8 @@ UBOOT_TARGETS := \
 	mt7981_cmcc_rax3000m-nand-ddr4 \
 	mt7981_comfast_cf-wr632ax \
 	mt7981_creatlentem_clt-r30b1-ubi \
+	mt7981_cudy_m3000-v1 \
+	mt7981_cudy_m3000-v2-yt8821 \
 	mt7981_cudy_tr3000-v1 \
 	mt7981_cudy_wbr3000uax-v1 \
 	mt7981_cudy_wr3000e-v1 \
@@ -1264,6 +1302,7 @@ UBOOT_TARGETS := \
 	mt7981_qihoo_360t7 \
 	mt7981_qihoo_360t7-ubi \
 	mt7981_snr_snr-cpe-ax2 \
+	mt7981_wavlink_wl-wnt100x3 \
 	mt7981_xiaomi_mi-router-ax3000t \
 	mt7981_xiaomi_mi-router-wr30u \
 	mt7986_acer_predator-w6x \
