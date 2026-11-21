@@ -11,7 +11,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=A-default-settings
-PKG_VERSION:=2.3
+PKG_VERSION:=1.1
 PKG_RELEASE:=112
 
 PKG_LICENSE:=GPL-3.0
@@ -22,19 +22,23 @@ define Package/A-default-settings
   SECTION:=luci
   CATEGORY:=LuCI
   TITLE:=LuCI support for Default Settings
-  DEPENDS:=+luci
+  DEPENDS:=+luci +luci-base +openssl-util +@LUCI_LANG_zh_Hans
   PKGARCH:=all
 endef
 
-define Build/Prepare
-	chmod -R +x ./files/usr/share target/*/{*,}/base-files/{etc/init.d,usr/bin} >/dev/null || true
+define Package/A-default-settings/description
+	LuCI Chinese, status links, system default config.
 endef
 
 define Build/Compile
 endef
 
 define Package/A-default-settings/install
-	$(CP) ./files/* $(1)/
+	$(CP) ./noodles/* $(1)/
+	$(INSTALL_DIR) $(1)/etc/uci-defaults
+	$(INSTALL_BIN) ./files/zzz-default-settings $(1)/etc/uci-defaults/99-default-settings
+	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/i18n
+	po2lmo ./i18n/default.zh_Hans.po $(1)/usr/lib/lua/luci/i18n/default.zh-cn.lmo
 endef
 
 $(eval $(call BuildPackage,A-default-settings))

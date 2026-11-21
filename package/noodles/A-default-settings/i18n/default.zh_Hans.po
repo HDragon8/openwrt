@@ -1,0 +1,179 @@
+msgid "CPU usage"
+msgstr "CPU 使用率"
+
+msgid "Full Cone NAT"
+msgstr "全锥形 NAT"
+
+msgid "Nftables Fullcone nat"
+msgstr "Nftables 全锥形 NAT"
+
+msgid "Full Cone NAT6"
+msgstr "全锥形 NAT6"
+
+msgid "Nftables based fullcone nat scheme."
+msgstr "基于 Nftables 的全锥形 NAT 方案。"
+
+msgid "Broadcom Fullcone nat"
+msgstr "Broadcom 全锥形 NAT"
+
+msgid "Broadcom based fullcone nat scheme."
+msgstr "基于博通的全锥型 NAT 方案。"
+
+msgid "IPv6 NAT"
+msgstr "IPv6 网络地址转换（NAT6）"
+
+msgid "Applicable to internet environments where the router is not assigned an IPv6 prefix, such as when using an upstream optical modem for dial-up."
+msgstr "适用于没有给路由分配 IPv6 前缀的上网环境，例如：上级光猫拨号"
+
+msgid "Flow offloading type"
+msgstr "流量分载类型"
+
+msgid "Shortcut-FE flow offloading"
+msgstr "Shortcut-FE 流量分载"
+
+msgid "Shortcut-FE based offloading for routing/NAT"
+msgstr "基于 Shortcut-FE 的 路由/NAT 分载"
+
+msgid "Shortcut-FE v2 flow offloading"
+msgstr "Shortcut-FE v2 流量分载"
+
+msgid "Shortcut-FE v2 based offloading for routing/NAT"
+msgstr "基于 Shortcut-FE v2 的 路由/NAT 分载"
+
+msgid "Connection Manager"
+msgstr "连接管理器"
+
+msgid "Set up the Shortcut-FE engine connection manager"
+msgstr "设置 Shortcut-FE 引擎连接管理器"
+
+msgid "Natflow offloading"
+msgstr "Natflow 流量分载"
+
+msgid "Natflow based offloading for routing/NAT"
+msgstr "基于 Natflow 的 路由/NAT 分载"
+
+msgid "Natflow delay packet"
+msgstr "Natflow 延迟数据包"
+
+msgid "Set up the natflow delay packet"
+msgstr "设置 Natflow 延迟数据包"
+
+msgid "Software based offloading for routing/NAT."
+msgstr "基于软件的 路由/NAT 分载。"
+
+msgid "Hardware based offloading for routing with/without NAT."
+msgstr "基于硬件的 路由/NAT 分载。"
+
+msgid "Custom rules allow you to execute arbitrary nft commands which are not otherwise covered by the firewall framework. The rules are executed after each firewall restart, right after the default ruleset has been loaded."
+msgstr "自定义规则允许您执行不属于防火墙框架的任意 nft 命令。每次重启防火墙时，这些命令在默认的规则运行后立即执行。"
+
+msgid "Enable FullCone NAT"
+msgstr "启用 FullCone-NAT"
+
+msgid "BCM FullCone NAT scheme"
+msgstr "博通全锥型 NAT 方案"
+
+msgid "BRCM Full Cone NAT"
+msgstr "博通全锥型 NAT"
+
+msgid "Enable IPv4"
+msgstr "IPv4"
+
+msgid "Enable IPv4 and IPv6"
+msgstr "IPv4 和 IPv6"
+
+msgid "Use the Broadcom FullCone NAT scheme if enabled, and use the NFT FullCone scheme if the option is disabled."
+msgstr "启用该选项时使用 Broadcom FullCone NAT 方案，禁用该选项时则使用 nft-fullcone 方案"
+
+msgid "Enable SQM autorate"
+msgstr "启用 SQM 自适应速率"
+
+msgid "Base download speed (kbit/s) (ingress):"
+msgstr "下载速度（kbit/s）（入口）"
+
+msgid "Base upload speed (kbit/s) (egress):"
+msgstr "上传速度（kbit/s）（出口）"
+
+msgid "Minimum download speed (kbit/s):"
+msgstr "最低下载速率（kbit/s）"
+
+msgid "Maximum download speed (kbit/s):"
+msgstr "最高下载速率（kbit/s）"
+
+msgid "Minimum upload speed (kbit/s):"
+msgstr "最低上传速率（kbit/s）"
+
+msgid "Maximum upload speed (kbit/s):"
+msgstr "最高上传速率（kbit/s）"
+
+msgid "Autorate settings"
+msgstr "自适应速率设置"
+
+msgid "Output monitoring lines showing processing stats"
+msgstr "输出监控行（显示处理统计）"
+
+msgid "Output monitoring lines showing cake bandwidth changes"
+msgstr "输出监控行（显示 CAKE 带宽变化）"
+
+msgid "Starlink support"
+msgstr "Starlink 支持"
+
+msgid "Reflector ping interval in seconds:"
+msgstr "反射器ping间隔（秒）"
+
+msgid "Pingers numbers:"
+msgstr "Ping 发送器 数量"
+
+msgid "delay threshold in ms:"
+msgstr "延迟阈值（毫秒）"
+
+msgid "Sleep functionnality"
+msgstr "休眠功能"
+
+msgid "Threshold in Kbit/s below which dl/ul is considered idle"
+msgstr "当下行/上行速率低于此阈值 (Kbit/s) 时视为空闲"
+
+msgid ""
+"Time threshold to put pingers to sleep on substained dl/ul achieved rate < "
+"idle_threshold"
+msgstr ""
+"当持续的下行/上行速率低于空闲阈值时，使Ping发送器休眠的时间阈值（秒）"
+
+msgid "Number of seconds to wait on startup:"
+msgstr "启动等待时间（秒）"
+
+msgid "Not"
+msgstr "排除"
+
+msgid "facility:"
+msgstr "类型:"
+
+msgid "severity:"
+msgstr "级别:"
+
+msgid "including:"
+msgstr "包含:"
+
+msgid "einat-ebpf"
+msgstr "einat-eBPF全锥NAT"
+
+msgid "eBPF-based Endpoint-Independent NAT"
+msgstr "基于eBPF实现的全锥型 NAT 方案"
+
+msgid "Network Speed"
+msgstr "网络速率"
+
+msgid "Interface"
+msgstr "接口"
+
+msgid "Download Rate (RX)"
+msgstr "下载速率 (RX)"
+
+msgid "Upload Rate (TX)"
+msgstr "上传速率 (TX)"
+
+msgid "Calculating..."
+msgstr "计算中..."
+
+msgid "No active network interfaces"
+msgstr "无活动网络接口"

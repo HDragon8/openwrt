@@ -1,0 +1,113 @@
+#!/bin/sh
+
+#aurora
+uci set luci.main.mediaurlbase='/luci-static/aurora'
+uci set luci.main.lang=auto
+uci commit luci
+
+#自动挂载
+#uci set fstab.@global[0].anon_mount=1
+#uci commit fstab
+
+#时区设置
+uci set system.@system[0].timezone='CST-8'
+uci set system.@system[0].zonename='Asia/Shanghai'
+uci set system.@system[0].zram_comp_algo='lzo-rle'
+uci del system.ntp.server
+uci add_list system.ntp.server='ntp.aliyun.com'
+uci add_list system.ntp.server='cn.ntp.org.cn'
+uci add_list system.ntp.server='ntp.ntsc.ac.cn'
+uci commit system
+
+#Dropbear
+uci set dropbear.@dropbear[0].Interface='lan'
+uci commit dropbear
+
+#Feeds 更换镜像源
+sed -i 's,https\?://downloads.openwrt.org,https://mirrors.cernet.edu.cn/openwrt,g' /etc/apk/repositories.d/distfeeds.list 2>/dev/null
+sed -i 's,https\?://downloads.openwrt.org,https://mirrors.cernet.edu.cn/openwrt,g' /etc/opkg/distfeeds.conf 2>/dev/null
+
+#package-manager
+[ -f /usr/libexec/package-manager-call ] && sed -i 's/action="add"/action="add --allow-untrusted"/g' /usr/libexec/package-manager-call
+
+#uhttpd 设置
+#uci set uhttpd.main.rfc1918_filter=0
+#uci set uhttpd.main.redirect_https=0
+#uci set uhttpd.main.http_keepalive=0
+#uci set uhttpd.main.tcp_keepalive=0
+#uci set uhttpd.main.script_timeout=65535
+#uci set uhttpd.main.script_network_timeout=65535
+#uci commit uhttpd
+
+#防火墙设置
+#uci set firewall.@defaults[0].input='ACCEPT'
+#uci set firewall.@defaults[0].synflood_protect='0'
+#uci set firewall.@defaults[0].flow_offloading='1'
+#uci commit firewall
+
+#Packet Steering
+#uci set network.globals.packet_steering='2'
+#uci set network.globals.steering_flows='128'
+#uci set network.lan.ip6assign='64'
+#uci set network.lan.ip6ifaceid='eui64'
+#uci delete network.globals.ula_prefix 2>/dev/null
+#uci commit network
+
+# CGNAT通用即插即用
+#uci set upnpd.config.enabled='0'
+#uci del upnpd.config.force_forwarding 2>/dev/null
+#uci set upnpd.config.ext_allow_private_ipv4='1'
+#uci set upnpd.config.use_stun='1'
+#uci set upnpd.config.stun_host='stun.miwifi.com'
+#uci set upnpd.config.ext_ip_reserved_ignore='1'
+#uci set upnpd.config.igdv1='1'
+#uci set upnpd.config.notify_interval='25'
+#uci set upnpd.config.clean_ruleset_interval='600'
+#uci commit upnpd
+
+# 通用即插即用GW --豆包--
+uci set upnpd.config.enabled='0'
+uci set upnpd.config.enable_natpmp='1'
+uci set upnpd.config.use_stun='0'
+uci set upnpd.config.ext_allow_private_ipv4='0'
+uci set upnpd.config.secure_mode='1'
+uci set upnpd.config.igdv1='1'
+uci set upnpd.config.notify_interval='25'
+uci set upnpd.config.clean_ruleset_interval='600'
+uci set upnpd.config.ext_ip_reserved_ignore='0'
+uci set upnpd.config.log_output='0'
+uci commit upnpd
+
+#dnsmasq 设置以及开启 IPv6
+#uci del dhcp.lan.ra 2>/dev/null
+#uci del dhcp.lan.dhcpv6 2>/dev/null
+#uci del dhcp.lan.ndp 2>/dev/null
+#uci del dhcp.lan.ra_useleasetime 2>/dev/null
+#uci del dhcp.lan.preferred_lifetime 2>/dev/null
+#uci set dhcp.lan.leasetime='12h'
+#uci set dhcp.lan.ra='server'
+#uci del dhcp.lan.ra_flags 2>/dev/null
+#uci add_list dhcp.lan.ra_flags='none'
+#uci del dhcp.lan.min_preferred_lifetime 2>/dev/null
+#uci set dhcp.lan.max_preferred_lifetime='2700s'
+#uci del dhcp.lan.min_valid_lifetime 2>/dev/null
+#uci set dhcp.lan.max_valid_lifetime='5400s'
+#uci set dhcp.lan.dns_service='0'
+#uci set dhcp.@dnsmasq[0].rebind_protection='0'
+#uci commit dhcp
+[ -f /etc/dnsmasq.conf ] && sed -i '/log-facility/d' /etc/dnsmasq.conf && echo "log-facility=/dev/null" >> /etc/dnsmasq.conf
+
+#rpcd
+[ "$(uci -q get rpcd.@rpcd[0].timeout)" -lt 60 ] 2>/dev/null && uci set rpcd.@rpcd[0].timeout='60' && uci commit rpcd
+
+#bandix
+[ -f /etc/config/bandix ] && uci set bandix.general.log_level='error' && uci commit bandix
+
+#软链接
+[ ! -f /usr/bin/ip ] && [ -f /sbin/ip ] && ln -sf /sbin/ip /usr/bin/ip
+[ ! -f /usr/bin/wget-ssl ] && [ -f /usr/bin/wget ] && ln -sf /usr/bin/wget /usr/bin/wget-ssl
+
+#清除 LuCI 残留缓存
+rm -rf /tmp/luci-modulecache /tmp/luci-indexcache 2>/dev/null
+
+exit 0
