@@ -1,0 +1,35 @@
+<%
+local empty = ""
+%>
+
+<% if luci.sys.exec("uci -q get base_config.@status[0].links 2>/dev/null | tr -d '\\n'") ~= "0" then %>
+<script>
+
+// 随机表情
+const emojiList = ['🎉','🎊','✨','🌟','💥','🎈','🎐','🏮','🎏','🌿','🏝️','🏜️','🏵️','🌾','💒','🏖️','🌈','🚀','🦋','🍄','🐳','🐰','🐸','🍓','🐱','🎀','✈️'];
+const r3 = emojiList[Math.floor(Math.random()*emojiList.length)];
+const r4 = emojiList[Math.floor(Math.random()*emojiList.length)];
+
+// 页面渲染
+setTimeout(function(){
+
+    const links = document.createElement('div');
+    links.innerHTML = `
+        <div class="table">
+            <div class="tr">
+                <div class="td left" width="33%">
+                    <a style="color:#5e72e4">固件编译者</a>
+                </div>
+                <div class="td left">
+                    <a href="https://github.com/HDragon8/openwrt" target="_blank" style="color:orangered;font-weight:bold;">
+                        侯永华 @ AAAA ${r3}CCCC${r4} BBBB
+                    </a>
+                </div>
+            </div>
+        </div>
+    `;
+    const tar = document.querySelectorAll(".cbi-section")[0];
+    if(tar) tar.appendChild(links);
+}, 1000);
+</script>
+<% end %>
